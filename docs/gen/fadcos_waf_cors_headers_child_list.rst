@@ -1,13 +1,13 @@
-:source: fadcos_backup_config.py
+:source: fadcos_waf_cors_headers_child_list.py
 
 :orphan:
 
-.. fadcos_backup_config:
+.. fadcos_waf_cors_headers_child_list:
 
-fadcos_backup_config -- Download FortiADC config file in Fortinet's FortiADC
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+fadcos_waf_cors_headers_child_list -- Configure the list entries of a CORS Headers List
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. versionadded:: 1.0.0
+.. versionadded:: 1.3.0
 
 .. contents::
    :local:
@@ -16,7 +16,7 @@ fadcos_backup_config -- Download FortiADC config file in Fortinet's FortiADC
 
 Synopsis
 --------
-- Download FortiADC config file by RESTful API
+- Configure the list entries of a CORS Headers List
 
 
 
@@ -37,20 +37,12 @@ FortiADC Version Compatibility
  <table>
  <tr>
  <td></td>
- <td><code class="docutils literal notranslate">v7.0.0 </code></td>
- <td><code class="docutils literal notranslate">v7.0.1 </code></td>
- <td><code class="docutils literal notranslate">v7.0.2 </code></td>
- <td><code class="docutils literal notranslate">v7.1.0 </code></td>
  <td><code class="docutils literal notranslate">v7.1.4 </code></td>
  <td><code class="docutils literal notranslate">v7.2.2 </code></td>
  <td><code class="docutils literal notranslate">v7.4.0 </code></td>
  </tr>
  <tr>
- <td>fortiadc_backup_config</td>
- <td>yes</td>
- <td>yes</td>
- <td>yes</td>
- <td>yes</td>
+ <td>fadcos_waf_cors_headers_child_list</td>
  <td>yes</td>
  <td>yes</td>
  <td>yes</td>
@@ -68,10 +60,10 @@ Parameters
 
     <ul>
     <li> <span class="li-head">action</span> - Type of action to perform on the object. <span class="li-normal">type: str</span> <span class="li-required">required: true</span> </li>
-    <li> <span class="li-head">path</span> - The config file save path<span class="li-normal">type: str</span> <span class="li-required">required: true</span></li>
-    <li> <span class="li-head">name</span> - The config file save name<span class="li-normal">type: str</span> <span class="li-required">required: true</span></li>
-    <li> <span class="li-head">configtype</span> - The backup type<span class="li-normal">type: str</span> <span class="li-required">required: false</span> </span> <span class="li-normal">default: local</span></li>
-    <li> <span class="li-head">password</span> - The config file unzip password<span class="li-normal">type: str</span> <span class="li-required">required: false</span> </li>
+    <li> <span class="li-head">name</span> - Specify the name of the CORS header list <span class="li-normal">type: str</span> <span class="li-required">required: true</span> </li>
+    <li> <span class="li-head">header</span> - Specify the HTTP header as a string. (1-63 characters).<span class="li-normal">type: str</span> <span class="li-required">required: false</span> </li>
+    <li> <span class="li-head">id</span> - Specify the ID of the CORS header in the list.<span class="li-normal">type: int</span> <span class="li-required">required: false</span> </li>
+    <li> <span class="li-head">vdom</span> - VDOM name if enabled.<span class="li-normal">type: str</span> <span class="li-required">required: true(if VDOM is enabled)</li>
     </ul>
 
 
@@ -80,19 +72,34 @@ Examples
 
 .. code-block:: yaml+jinja
 
-	- name:
-	  hosts: all
-	  connection: httpapi
-	  gather_facts: false
-	  tasks:
-		- name: Backup config
-		  fadcos_backup_config:
-			action: save
-			path: /temp/fortiadc/.
-			password: pwd
-    
-
-
+        - name:
+          hosts: all
+          vars:
+          connection: httpapi
+          gather_facts: false
+          tasks:
+            - name: Add WAF cors_headers_child_cors_headers_list entry
+              fadcos_waf_cors_headers_child_list:
+                action: add
+                name: cor1
+                header: hhhhh
+            - name: edit WAF cors_headers_child_cors_headers_list entry
+              fadcos_waf_cors_headers_child_list:
+                action: edit
+                name: cor1
+                id: 1
+                header: kkkkk
+            - name: edit WAF cors_headers_child_cors_headers_list entry
+              fadcos_waf_cors_headers_child_list:
+                action: get
+                name: cor1
+                id: 1
+            - name: delete WAF cors_headers_child_cors_headers_list entry
+              fadcos_waf_cors_headers_child_list:
+                action: delete
+                name: cor1
+                id: 1
+            
 Return Values
 -------------
 Common return values are documented: https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html#common-return-values, the following are the fields unique to this module:
@@ -124,8 +131,7 @@ Status
 Authors
 -------
 
-- Jie Li
-- Aravindh Sri
+- Joseph Chen
 
 
 .. hint::
